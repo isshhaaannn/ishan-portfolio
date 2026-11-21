@@ -1,0 +1,138 @@
+---
+import '../styles/global.css';
+import { SITE, bookingHref } from '../data/site';
+interface Props { title?: string; description?: string; image?: string }
+const { title, description = SITE.bio, image = '/og.jpg' } = Astro.props;
+const fullTitle = title ? `${title} · ${SITE.name}` : `${SITE.name}, ${SITE.title}`;
+const canonical = new URL(Astro.url.pathname, SITE.url).href;
+---
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>{fullTitle}</title>
+    <meta name="description" content={description} />
+    <link rel="canonical" href={canonical} />
+    <meta name="theme-color" content="#0c0d12" />
+    <link rel="preload" href="/fonts/Advercase-Bold.woff" as="font" type="font/woff" crossorigin />
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content={fullTitle} />
+    <meta property="og:description" content={description} />
+    <meta property="og:url" content={canonical} />
+    <meta property="og:image" content={new URL(image, SITE.url).href} />
+    <meta name="twitter:card" content="summary_large_image" />
+    <script type="application/ld+json" set:html={JSON.stringify({
+      '@context': 'https://schema.org', '@type': 'Person', name: SITE.name, jobTitle: SITE.title, url: SITE.url,
+      sameAs: [SITE.linkedin], worksFor: { '@type': 'Organization', name: SITE.studio.name, url: SITE.studio.url },
+    })} />
+    {SITE.goatcounter && (
+      <script is:inline data-goatcounter={`https://${SITE.goatcounter}.goatcounter.com/count`} async src="//gc.zgo.at/count.js"></script>
+    )}
+  </head>
+  <body>
+    <a class="skip" href="#main">Skip to content</a>
+    <header class="bar">
+      <a class="bar__mark" href="/" aria-label={`${SITE.name}, home`}>
+        <span class="num">IM</span><span class="bar__set">Rookie Set · 26</span>
+      </a>
+      <nav class="bar__nav" aria-label="Sections">
+        <a href="/#binder">The set</a>
+        <a href="/#stats">Stats</a>
+        <a href="/#how">How it works</a>
+        <a href="/#faq">FAQ</a>
+      </nav>
+      <a class="bar__cta" href={bookingHref} data-book>Book a call</a>
+    </header>
+    <main id="main"><slot /></main>
+    <footer class="foot wrap">
+      <span>© 2026 {SITE.name} · Founder, <a href={SITE.studio.url}>{SITE.studio.name}</a></span>
+      <span class="foot__links">
+        <a href={SITE.linkedin} rel="me">LinkedIn</a>
+        <a href={`mailto:${SITE.email}`}>{SITE.email}</a>
+        <a href={`mailto:${SITE.emailPersonal}`}>{SITE.emailPersonal}</a>
+      </span>
+    </footer>
+
+    <script>
+      // Pointer tilt + refractor sheen. Desktop pointers only; calm on touch and reduced motion.
+      const fine = matchMedia('(hover: hover) and (pointer: fine)').matches;
+      const still = matchMedia('(prefers-reduced-motion: reduce)').matches;
+      const cards = document.querySelectorAll<HTMLElement>('[data-tilt]');
+      if (fine && !still) {
+        cards.forEach((card) => {
+          const max = card.classList.contains('card--holo') ? 14 : 8;
+          let raf = 0;
+          card.addEventListener('pointermove', (e) => {
+            const r = card.getBoundingClientRect();
+            const x = (e.clientX - r.left) / r.width, y = (e.clientY - r.top) / r.height;
+            cancelAnimationFrame(raf);
+            raf = requestAnimationFrame(() => {
+              card.classList.add('is-tilting');
+              card.style.setProperty('--mx', `${x * 100}%`);
+              card.style.setProperty('--my', `${y * 100}%`);
+              card.style.setProperty('--rx', `${(0.5 - y) * max}deg`);
+              card.style.setProperty('--ry', `${(x - 0.5) * max}deg`);
+              card.style.setProperty('--hover', '1');
+            });
+          });
+          card.addEventListener('pointerleave', () => {
+            cancelAnimationFrame(raf);
+            card.classList.remove('is-tilting');
+            ['--rx', '--ry'].forEach((v) => card.style.setProperty(v, '0deg'));
+            card.style.setProperty('--hover', '0');
+          });
+        });
+      }
+      // Flip: front <-> stat back. Stats roll in from zero.
+      document.querySelectorAll<HTMLElement>('.card--flip').forEach((card) => {
+        card.classList.add('is-armed');
+        const btn = card.querySelector<HTMLButtonElement>('.card__flipbtn')!;
+        const back = card.querySelector<HTMLElement>('.card__back');
+        const front = card.querySelector<HTMLElement>('.card__front');
+        const sync = () => {
+          const on = card.classList.contains('is-flipped');
+          btn.setAttribute('aria-pressed', String(on));
+          back?.toggleAttribute('inert', !on); back?.setAttribute('aria-hidden', String(!on));
+          front?.setAttribute('aria-hidden', String(on));
+        };
+        sync();
+        btn.addEventListener('click', () => { card.classList.toggle('is-flipped'); sync(); });
+      });
+      // Count-up for stat blocks entering view.
+      const io = new IntersectionObserver((es) => es.forEach((e) => {
+        if (e.isIntersecting) { e.target.classList.add('is-counted'); io.unobserve(e.target); }
+      }), { threshold: 0, rootMargin: '0px 0px -15% 0px' });
+      document.querySelectorAll('[data-count]').forEach((el) => { el.classList.add('is-armed'); io.observe(el); });
+    </script>
+
+    <style is:global>
+      .skip { position: absolute; left: -999px; top: 8px; z-index: 100; background: var(--stock); color: var(--ink); padding: 8px 12px; }
+      .skip:focus { left: 8px; }
+      .bar {
+        position: fixed; z-index: 50; top: 0; left: 0; right: 0;
+        display: flex; align-items: center; justify-content: space-between; gap: 24px;
+        padding: 14px var(--gutter);
+        background: linear-gradient(to bottom, rgb(12 13 18 / 0.92), rgb(12 13 18 / 0));
+      }
+      .bar__mark { display: inline-flex; align-items: center; gap: 10px; text-decoration: none; }
+      .bar__mark .num { font-size: 1.55rem; line-height: 1; background: var(--stock); color: var(--ink); padding: 4px 6px 1px; border-radius: 4px; }
+      .bar__set { font-family: var(--label); font-weight: 700; text-transform: uppercase; letter-spacing: 0.1em; font-size: 0.7rem; color: var(--text-soft); }
+      .bar__nav { display: flex; gap: 28px; }
+      .bar__nav a { font-family: var(--label); font-weight: 700; text-transform: uppercase; letter-spacing: 0.08em; font-size: 0.75rem; text-decoration: none; color: var(--text-soft); transition: color 0.3s; }
+      .bar__nav a:hover { color: var(--text); }
+      .bar__cta {
+        font-family: var(--label); font-weight: 700; text-transform: uppercase; letter-spacing: 0.08em; font-size: 0.78rem;
+        background: var(--cobalt); color: #fff; text-decoration: none; padding: 10px 16px 8px; border-radius: 4px;
+        transition: background-color 0.3s var(--ease-out);
+      }
+      .bar__cta:hover { background: var(--cobalt-hi); }
+      @media (max-width: 860px) { .bar__nav, .bar__set { display: none; } }
+      .foot { display: flex; flex-wrap: wrap; justify-content: space-between; gap: 12px 32px; padding-top: 40px; padding-bottom: 40px; border-top: 1px solid var(--line); color: var(--text-soft); font-size: 0.92rem; }
+      .foot a { color: var(--text-soft); }
+      .foot a:hover { color: var(--text); }
+      .foot__links { display: flex; flex-wrap: wrap; gap: 8px 24px; }
+    </style>
+  </body>
+</html>

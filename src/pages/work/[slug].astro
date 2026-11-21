@@ -1,0 +1,175 @@
+---
+import Base from '../../layouts/Base.astro';
+import Card from '../../components/Card.astro';
+import { PROJECTS, SETS } from '../../data/projects';
+import { getMedia, type Media } from '../../lib/media';
+import { bookingHref } from '../../data/site';
+import palettes from '../../data/palettes.json';
+
+export function getStaticPaths() {
+  return PROJECTS.map((p) => ({ params: { slug: p.slug } }));
+}
+const { slug } = Astro.params;
+const i = PROJECTS.findIndex((p) => p.slug === slug);
+const p = PROJECTS[i];
+const next = PROJECTS[(i + 1) % PROJECTS.length];
+const media = getMedia(p.slug);
+const swatches: string[] = (palettes as Record<string, string[]>)[p.slug] ?? [];
+const serial = p.flagship ? undefined : `#${String(i + 1).padStart(2, '0')}`;
+
+// Group into series by source folder; keep order of first appearance.
+const groups: { name: string; items: Media[] }[] = [];
+for (const m of media) {
+  const name = m.series ?? p.name;
+  const g = groups.find((x) => x.name === name) ?? (groups.push({ name, items: [] }), groups[groups.length - 1]);
+  g.items.push(m);
+}
+const tidy = (s: string) => {
+  const t = s.replace(/^(Passion|export|final|final_v\d+|v\d+|v\d+_send_final|0\.5x|revised|renders?|render|out)$/i, '').trim();
+  return t.length > 2 && !/^\d+$/.test(t) ? t.charAt(0).toUpperCase() + t.slice(1) : '';
+};
+const isStrip = (g: { items: Media[] }) => g.items.length > 2 && g.items.every((m) => (m.h ?? 0) >= (m.w ?? 1) * 0.95);
+---
+<Base title={`${p.name}: ${p.position}`} description={p.blurb}>
+  <article class="case wrap">
+    <aside class="case__side">
+      <div class="case__card">
+        <Card project={p} serial={serial ?? (p.flagship ? 'HOLO' : undefined)} eager vt />
+      </div>
+      <div class="case__meta">
+        <h1>{p.name}</h1>
+        <p class="case__team">{p.team} · {p.position}</p>
+        <p class="case__set">{SETS[p.set]} · {media.length} pieces</p>
+        <p class="case__blurb">{p.blurb}</p>
+        {p.stats && (
+          <dl class="case__stats" data-count>
+            {p.stats.map((s) => <div><dd class="num"><span class="roll" style={`--to:${s.value}`}><span class="sr-only">{s.value}</span></span>{s.suffix}</dd><dt>{s.label}</dt></div>)}
+          </dl>
+        )}
+        {swatches.length > 0 && (
+          <div class="case__spec">
+            <h2 class="case__spech">Palette from the work</h2>
+            <ul class="case__swatches" role="list">{swatches.map((c) => <li><span style={`--c:${c}`}></span><code>{c}</code></li>)}</ul>
+          </div>
+        )}
+      </div>
+    </aside>
+
+    <div class="case__main">
+      {p.story && (
+        <div class="story">
+          {p.story.map((s) => <section><h2>{s.title}</h2><p>{s.body}</p></section>)}
+        </div>
+      )}
+
+      {groups.map((g) => (
+        <section class="series">
+          <div class="series__top">
+            {tidy(g.name) && groups.length > 1 && <h2 class="series__name">{tidy(g.name)}</h2>}
+            {isStrip(g) && (
+              <div class="strip__ctl">
+                <span class="strip__count num"><span data-cur>1</span> / {g.items.length}</span>
+                <button type="button" data-dir="-1" aria-label="Previous slide"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" aria-hidden="true"><path d="M20 12H5M11 6l-6 6 6 6"/></svg></button>
+                <button type="button" data-dir="1" aria-label="Next slide"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" aria-hidden="true"><path d="M4 12h15M13 6l6 6-6 6"/></svg></button>
+              </div>
+            )}
+          </div>
+          <div class:list={['series__body', isStrip(g) ? 'is-strip' : 'is-grid']} tabindex={isStrip(g) ? 0 : undefined} aria-label={isStrip(g) ? `${tidy(g.name) || p.name}, swipe through the slides` : undefined}>
+            {g.items.map((m) => m.type === 'video' ? (
+              <video src={m.src} poster={m.poster} controls playsinline preload="none" width={m.w} height={m.h}></video>
+            ) : (
+              <img
+                src={m.small ?? m.src}
+                srcset={m.small ? `${m.small} 640w, ${m.src} 1600w` : undefined}
+                sizes={isStrip(g) ? '(max-width: 700px) 80vw, 420px' : '(max-width: 900px) 100vw, 60vw'}
+                width={m.w} height={m.h} alt={`${p.name}, ${tidy(g.name) || p.position}`} loading="lazy" decoding="async"
+              />
+            ))}
+          </div>
+        </section>
+      ))}
+
+      <div class="case__foot">
+        <a class="tear" href={bookingHref} data-book>Want work like this? Book a call <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" aria-hidden="true"><path d="M4 12h15M13 6l6 6-6 6"/></svg></a>
+        <a class="case__next" href={`/work/${next.slug}/`} aria-label={`Next card: ${next.name}`}><strong>{next.name}</strong><svg class="arr" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" aria-hidden="true"><path d="M4 12h15M13 6l6 6-6 6"/></svg></a>
+      </div>
+    </div>
+  </article>
+  <script>
+    document.querySelectorAll<HTMLElement>('.series').forEach((s) => {
+      const strip = s.querySelector<HTMLElement>('.is-strip'); const cur = s.querySelector('[data-cur]');
+      if (!strip || !cur) return;
+      const items = [...strip.children] as HTMLElement[];
+      const at = () => { const x = strip.scrollLeft; let i = 0; items.forEach((el, k) => { if (el.offsetLeft - strip.offsetLeft <= x + 8) i = k; }); return i; };
+      strip.addEventListener('scroll', () => { cur.textContent = String(at() + 1); }, { passive: true });
+      s.querySelectorAll<HTMLButtonElement>('[data-dir]').forEach((b) => b.addEventListener('click', () => {
+        const i = Math.min(items.length - 1, Math.max(0, at() + Number(b.dataset.dir)));
+        strip.scrollTo({ left: items[i].offsetLeft - strip.offsetLeft, behavior: matchMedia('(prefers-reduced-motion: reduce)').matches ? 'auto' : 'smooth' });
+      }));
+    });
+  </script>
+</Base>
+
+<style>
+  .case { display: grid; grid-template-columns: minmax(260px, 4fr) minmax(0, 8fr); gap: clamp(32px, 5vw, 80px); padding-top: 110px; padding-bottom: 96px; }
+  .case > * { min-width: 0; }
+  .case__side { position: sticky; top: 96px; align-self: start; display: grid; gap: 28px; }
+  .case__side > * { min-width: 0; }
+  .case__card { max-width: 340px; }
+  .case__set { font-family: var(--label); font-weight: 700; text-transform: uppercase; letter-spacing: 0.08em; color: var(--text-soft); font-size: 0.95rem; }
+  .case__meta { display: flex; flex-direction: column; gap: 10px; }
+  .case__meta h1 { font-size: clamp(2.8rem, 5vw, 4.5rem); }
+  .case__team { color: var(--text-soft); }
+  .case__blurb { font-size: 1.1rem; max-width: 40ch; }
+  .case__stats { display: flex; flex-wrap: wrap; gap: 28px; margin: 8px 0 0; }
+  .case__stats dd { margin: 0; font-size: clamp(3rem, 6vw, 4.5rem); line-height: 0.85; color: var(--red); }
+  .case__stats dt { color: var(--text-soft); margin-top: 4px; }
+
+  .story { display: grid; gap: 36px; padding-bottom: 64px; margin-bottom: 64px; border-bottom: 1px solid var(--line); }
+  .story h2 { font-size: clamp(1.8rem, 3vw, 2.6rem); }
+  .story p { margin-top: 10px; color: var(--text-soft); font-size: 1.15rem; max-width: 60ch; }
+
+  .series + .series { margin-top: 72px; }
+  .series__name { font-size: clamp(1.6rem, 2.6vw, 2.2rem); margin-bottom: 20px; }
+  .is-strip { display: flex; gap: 12px; overflow-x: auto; scroll-snap-type: x mandatory; padding-bottom: 16px; overscroll-behavior-x: contain; }
+  .is-strip img, .is-strip video { flex: 0 0 auto; height: min(62vh, 560px); width: auto; aspect-ratio: auto; border-radius: 6px; scroll-snap-align: start; background: var(--ground-3); }
+  .is-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(min(100%, 300px), 1fr)); gap: 12px; align-items: start; }
+  .is-grid img, .is-grid video { width: 100%; height: auto; border-radius: 6px; background: var(--ground-3); }
+  .is-grid video:only-child { grid-column: 1 / -1; max-height: 80vh; width: auto; max-width: 100%; }
+
+  .case__foot { margin-top: 96px; padding-top: 40px; border-top: 1px solid var(--line); display: flex; flex-wrap: wrap; justify-content: space-between; align-items: center; gap: 32px; }
+  .case__next { text-decoration: none; display: grid; text-align: right; }
+  .case__next span { color: var(--text-soft); font-size: 0.95rem; }
+  .case__next strong { font-family: var(--display); font-weight: 700; text-transform: uppercase; font-size: clamp(2rem, 4vw, 3.2rem); line-height: 0.9; transition: color 0.3s; }
+  .case__next:hover strong { color: var(--red); }
+
+
+  .series__top { display: flex; justify-content: space-between; align-items: end; gap: 16px; margin-bottom: 20px; }
+  .series__top .series__name { margin-bottom: 0; }
+  .strip__ctl { display: flex; align-items: center; gap: 8px; margin-left: auto; }
+  .strip__count { font-size: 1.3rem; margin-right: 8px; color: var(--text-soft); }
+  .strip__ctl button { width: 44px; height: 44px; display: grid; place-items: center; border-radius: 50%; border: 1.5px solid var(--line); background: transparent; color: var(--text); cursor: pointer; transition: background-color 0.3s, border-color 0.3s; }
+  .strip__ctl button:hover { background: var(--stock); color: var(--ink); border-color: var(--stock); }
+  .strip__ctl svg { width: 18px; height: 18px; }
+  .case__spec { display: grid; gap: 10px; }
+  .case__spech { font-family: var(--label); font-weight: 700; text-transform: uppercase; letter-spacing: 0.1em; font-size: 0.72rem; color: var(--text-soft); }
+  .case__swatches { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: repeat(5, minmax(0, 1fr)); gap: 6px; }
+  .case__swatches code { overflow: hidden; text-overflow: ellipsis; }
+  .case__swatches li { display: grid; gap: 4px; }
+  .case__swatches span { height: 34px; border-radius: 4px; background: var(--c); box-shadow: inset 0 0 0 1px rgb(255 255 255 / 0.08); }
+  .case__swatches code { font-size: 0.68rem; color: var(--text-soft); font-family: var(--label); }
+  .case__next { display: inline-flex !important; align-items: center; gap: 14px; }
+  .case__next .arr { width: 2rem; height: 2rem; transition: transform 0.4s var(--ease-out); }
+  .case__next:hover .arr { transform: translateX(6px); }
+  @media (max-width: 860px) {
+    .strip__ctl button { display: none; }
+    .case__spec { grid-column: 1 / -1; }
+    .case { grid-template-columns: 1fr; padding-top: 84px; }
+    .case__side { position: static; grid-template-columns: 140px 1fr; align-items: start; gap: 18px; }
+    .case__meta h1 { font-size: clamp(2.2rem, 9vw, 3rem); }
+    .is-strip img, .is-strip video { height: min(62vh, 100vw); }
+    .is-strip { margin-right: calc(var(--gutter) * -1); padding-right: var(--gutter); }
+    .case__foot .tear { width: 100%; justify-content: space-between; font-size: 0.85rem; }
+    .case__next { text-align: left; }
+  }
+</style>

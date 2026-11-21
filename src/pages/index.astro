@@ -1,0 +1,421 @@
+---
+import Base from '../layouts/Base.astro';
+import Card from '../components/Card.astro';
+import { PROJECTS, SETS, CAREER, type SetKey } from '../data/projects';
+import { SITE, bookingHref } from '../data/site';
+
+const flagships = ['metro-media-house', 'steven-bartlett', 'vryks'].map((s) => PROJECTS.find((p) => p.slug === s)!);
+const serials: Record<string, string> = { 'steven-bartlett': '01/03', 'metro-media-house': '02/03', vryks: '03/03' };
+const setKeys = Object.keys(SETS) as SetKey[];
+const counts = Object.fromEntries(setKeys.map((k) => [k, PROJECTS.filter((p) => p.set === k).length]));
+const roster = ['Steven Bartlett', 'Daily Mail', 'My First Million', 'The Hustle', 'The Knowledge Project', 'Arthur Brooks', 'EUVC', 'BYL Ventures', 'Metro Media House', 'Centre for Policy Studies', 'Berribot', 'Journey Club', 'SeeIT', 'Kane Kallaway', 'Nik Stewart', 'Chris Goode', 'Kelme India', 'Gulnar'];
+
+const checklist = [
+  ['Brand identity', 'Logo, type, colour and the rules that hold them together.'],
+  ['Carousels & social design', 'The format I’m known for. One idea per slide, built to be saved.'],
+  ['Video editing & motion', 'Short-form edits, brand films, animated logos.'],
+  ['Content repurposing', 'Your podcast, talks and posts turned into a month of content.'],
+  ['Creative direction', 'Someone owning how everything looks, so you don’t have to.'],
+  ['Websites', 'Sites like this one, built to load fast and convert.'],
+  ['Social media management', 'Scheduling, posting and keeping the feed consistent.'],
+  ['CRM setup', 'So the people your content brings in don’t go cold.'],
+];
+
+const faqs = [
+  ['What does it cost?', 'Every engagement starts with a fixed-price brand sprint, scoped on our first call. I don’t publish prices because scope varies a lot between founders; you’ll have a clear number before you commit to anything.'],
+  ['Do you work with founders outside India?', 'Yes. I’ve designed for founders and shows in the US, UK and Europe, including Steven Bartlett, My First Million and EUVC. We agree a working rhythm on our first call, and I bill in USD.'],
+  ['What do you need from me?', 'Your raw material (podcast episodes, talks, posts, voice notes), a short weekly feedback slot, and strong opinions. I handle the rest.'],
+  ['Is it just you?', 'You work with me directly. When a project needs more hands, my studio, Vryks Media, steps in, so scope can grow without you having to find a new team.'],
+  ['Can you do video as well as design?', 'Yes. Edits, motion and launch films are part of the membership, alongside carousels, brand and web.'],
+  ['How do we start?', 'Book a 30-minute intro call. We’ll talk about where your brand is now, where you want it, and whether a sprint makes sense.'],
+];
+---
+<Base>
+  <!-- PACK: the first viewport -->
+  <section class="pack" aria-labelledby="who">
+    <div class="pack__wrapper">
+      <svg class="pack__tear" viewBox="0 0 400 40" preserveAspectRatio="none" aria-hidden="true"><path d="M0 40 L0 14 L14 20 L22 9 L37 17 L49 6 L63 15 L71 4 L88 13 L97 7 L112 18 L124 5 L139 14 L150 8 L166 19 L177 6 L193 12 L204 3 L219 15 L231 8 L246 17 L258 5 L272 13 L285 7 L299 18 L311 6 L326 14 L338 4 L352 16 L365 9 L379 18 L389 7 L400 13 L400 40 Z"/></svg>
+      <div class="pack__seal" aria-hidden="true"><span class="num">IM·26</span><span>Series One</span></div>
+      <div class="pack__print">
+        <h1 id="who" class="pack__name"><span>Ishan</span><span>Mitra</span></h1>
+        <p class="pack__title">{SITE.title}</p>
+        <p class="pack__bio">{SITE.bio}</p>
+        <div class="pack__actions">
+          <a class="tear" href={bookingHref} data-book>Book an intro call <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" aria-hidden="true"><path d="M4 12h15M13 6l6 6-6 6"/></svg></a>
+          <a class="textlink" href="#binder">Open the binder</a>
+        </div>
+      </div>
+      <div class="pack__odds">
+        <p><span class="num">40M+</span> views of proof inside. 3 holos per pack.</p>
+        <p class="pack__set"><span class="num">IM·26</span> Rookie Set · Series One</p>
+      </div>
+    </div>
+
+    <div class="pack__fan" aria-label="Featured work">
+      <div class="fanback" aria-hidden="true" data-count>
+        <span class="fanback__code num">IM·26 · CAREER</span>
+        <span class="fanback__big num"><span class="roll" style="--to:40"></span>M+</span>
+        <span class="fanback__label">views from Instagram carousels alone</span>
+      </div>
+      {flagships.map((p, i) => (
+        <div class={`fan fan--${i}`}>
+          <Card project={p} serial={serials[p.slug]} flip eager />
+        </div>
+      ))}
+      <p class="pack__hint" aria-hidden="true">Tap a holo to flip it</p>
+    </div>
+  </section>
+
+  <!-- BINDER: every card, by set -->
+  <section id="binder" class="binder" aria-labelledby="binder-h">
+    <div class="wrap">
+      <div class="binder__head">
+        <h2 id="binder-h">The full set</h2>
+        <p>{PROJECTS.length} cards across four sets. Open any card to see every slide, frame and film.</p>
+      </div>
+      <div class="tabs" role="toolbar" aria-label="Filter by set">
+        <button type="button" aria-pressed="true" data-set="all">All <span class="num">{PROJECTS.length}</span></button>
+        {setKeys.map((k) => <button type="button" aria-pressed="false" data-set={k}>{SETS[k]} <span class="num">{counts[k]}</span></button>)}
+      </div>
+      <ul class="sheet" role="list">
+        {PROJECTS.map((p, i) => (
+          <li class="pocket" data-set={p.set}>
+            <Card project={p} href={`/work/${p.slug}/`} serial={p.flagship ? serials[p.slug] : `#${String(i + 1).padStart(2, '0')}`} vt />
+          </li>
+        ))}
+      </ul>
+    </div>
+  </section>
+
+  <!-- STATS: the career card back -->
+  <section id="stats" class="stats" aria-labelledby="stats-h">
+    <div class="wrap">
+      <div class="statcard" data-count>
+        <div class="statcard__head">
+          <h2 id="stats-h">Career stats</h2>
+          <p class="num">IM·26 · Instagram carousels</p>
+        </div>
+        <table class="stattable">
+          <caption class="sr-only">Views generated by carousels I designed</caption>
+          <thead><tr><th scope="col">Team</th><th scope="col">Format</th><th scope="col">Views</th></tr></thead>
+          <tbody>
+            <tr><th scope="row">Steven Bartlett</th><td>Founder-brand carousels</td><td class="num"><span class="roll" style="--to:5"><span class="sr-only">5</span></span>M+</td></tr>
+            <tr><th scope="row">Metro Media House</th><td>Editorial series · 1–2M engagements</td><td class="num"><span class="roll" style="--to:2"><span class="sr-only">2</span></span>M+</td></tr>
+            <tr class="total"><th scope="row">Career total</th><td>Instagram carousels only</td><td class="num"><span class="roll" style={`--to:${CAREER[0].value}`}><span class="sr-only">{CAREER[0].value}</span></span>M+</td></tr>
+          </tbody>
+        </table>
+        <div class="roster">
+          <h3>Teams played for</h3>
+          <ul role="list">{roster.map((t) => <li>{t}</li>)}</ul>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- HOW: sprint into membership -->
+  <section id="how" class="how" aria-labelledby="how-h">
+    <div class="wrap how__grid">
+      <div class="how__intro">
+        <h2 id="how-h">How a set gets made</h2>
+        <p>I don’t do one-off posts. I build your brand once, properly, and then keep it alive every week.</p>
+      </div>
+      <ol class="how__steps" role="list">
+        <li>
+          <span class="how__n num">1</span>
+          <div><h3>Intro call</h3><p>Thirty minutes, free. Where your brand is, where you want it, and whether we’re a fit.</p></div>
+        </li>
+        <li>
+          <span class="how__n num">2</span>
+          <div><h3>Brand sprint</h3><p>A fixed-price first project. I audit what you have, then build your visual system: type, colour, hierarchy rules and the content formats you’ll use. You get the first batch of content at the end.</p></div>
+        </li>
+        <li>
+          <span class="how__n num">3</span>
+          <div><h3>Content membership</h3><p>Every month, I make and run the content that uses that system: carousels, edits, repurposed clips, and anything else on the checklist below.</p></div>
+        </li>
+      </ol>
+    </div>
+  </section>
+
+  <!-- CHECKLIST: positions played -->
+  <section class="check" aria-labelledby="check-h">
+    <div class="wrap">
+      <div class="check__card">
+      <div class="check__head">
+        <h2 id="check-h">The checklist</h2>
+        <p>Everything the membership covers. Tick what you need; I’ll handle the rest.</p>
+      </div>
+      <ul class="check__list" role="list">
+        {checklist.map(([t, d]) => (
+          <li><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="2.5" y="2.5" width="19" height="19" rx="3" fill="none" stroke="currentColor" stroke-width="2"/><path d="M7 12.5l3.2 3.2L17.5 8" fill="none" stroke="currentColor" stroke-width="2.6"/></svg><div><strong>{t}</strong><span>{d}</span></div></li>
+        ))}
+      </ul>
+      </div>
+    </div>
+  </section>
+
+  <!-- ABOUT: text only -->
+  <section class="about" aria-labelledby="about-h">
+    <div class="wrap about__grid">
+      <h2 id="about-h">About the player</h2>
+      <div class="about__text">
+        <p>I’m Ishan. I design for founder-led brands and the shows people can’t stop watching: Steven Bartlett, Daily Mail’s dmg newmedia, My First Million, The Hustle, The Knowledge Project and a long list of founders building in public.</p>
+        <p>I started as a designer and editor, and kept getting pulled into the bigger question: not just how a post looks, but what the whole brand should feel like and how it shows up every week. That’s the job now. I’m the person who owns it.</p>
+        <p>When a project needs more hands, my studio, <a class="textlink" href={SITE.studio.url}>Vryks Media</a>, comes with me.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- FAQ -->
+  <section id="faq" class="faq" aria-labelledby="faq-h">
+    <div class="wrap faq__grid">
+      <h2 id="faq-h">Questions</h2>
+      <div class="faq__list">
+        {faqs.map(([q, a]) => (
+          <details><summary>{q}<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 9l7 7 7-7" fill="none" stroke="currentColor" stroke-width="2.5"/></svg></summary><p>{a}</p></details>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- FREE PULL -->
+  <section class="free" aria-labelledby="free-h">
+    <div class="wrap free__grid">
+      <div class="free__fan" aria-hidden="true">
+        {[1, 2, 3, 4, 5].map((i) => <img src={`/free/phone-${i}.webp`} alt="" loading="lazy" style={`--i:${i - 3}`} />)}
+      </div>
+      <div class="free__text">
+        <h2 id="free-h">A free pull</h2>
+        <p>My <em>Think. Design. Win.</em> wallpaper pack, five colours for iPhone and desktop. No email needed, just take it.</p>
+        <a class="free__dl" href="/free/think-design-win-wallpapers.zip" download>Download the pack <span class="num">(30 MB)</span></a>
+      </div>
+    </div>
+  </section>
+
+  <!-- CLOSE -->
+  <section class="close" aria-labelledby="close-h">
+    <div class="wrap close__grid">
+      <div class="close__slot" aria-hidden="true"><span class="num">?/??</span><span>Your card</span></div>
+      <div>
+        <h2 id="close-h">Your card’s next.</h2>
+        <p>Book a 30-minute call. If we’re a fit, we start with a brand sprint. If not, you’ll leave with ideas you can use anyway.</p>
+        <div class="close__actions">
+          <a class="tear" href={bookingHref} data-book>Book an intro call <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" aria-hidden="true"><path d="M4 12h15M13 6l6 6-6 6"/></svg></a>
+          <p class="close__alt">Or write to <a class="textlink" href={`mailto:${SITE.email}`}>{SITE.email}</a> · <a class="textlink" href={SITE.linkedin}>LinkedIn</a></p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <script>
+    const tabs = document.querySelectorAll<HTMLButtonElement>('.tabs button');
+    const pockets = document.querySelectorAll<HTMLElement>('.pocket');
+    tabs.forEach((t) => t.addEventListener('click', () => {
+      const set = t.dataset.set!;
+      tabs.forEach((b) => b.setAttribute('aria-pressed', String(b === t)));
+      const go = () => pockets.forEach((p) => { p.hidden = set !== 'all' && p.dataset.set !== set; });
+      (document as any).startViewTransition && !matchMedia('(prefers-reduced-motion: reduce)').matches ? (document as any).startViewTransition(go) : go();
+    }));
+  </script>
+</Base>
+
+<style>
+  /* ---------- PACK ---------- */
+  .pack {
+    position: relative; min-height: 100svh; display: grid; grid-template-columns: minmax(0, 40fr) minmax(0, 60fr);
+    padding: 96px var(--gutter) 56px; gap: clamp(24px, 4vw, 64px); align-items: center; max-width: var(--max); margin: 0 auto;
+  }
+  .pack__wrapper {
+    position: relative; align-self: stretch; display: flex; flex-direction: column; justify-content: space-between;
+    padding: clamp(40px, 5vw, 64px) clamp(24px, 3vw, 44px) 28px; border-radius: 6px 6px 10px 10px; color: var(--ink);
+    background:
+      radial-gradient(120% 60% at 30% 0%, rgb(255 255 255 / 0.5), rgb(255 255 255 / 0) 60%),
+      linear-gradient(112deg, rgb(255 255 255 / 0) 22%, rgb(255 255 255 / 0.85) 34%, rgb(255 255 255 / 0) 44%, rgb(255 255 255 / 0) 62%, rgb(255 255 255 / 0.55) 70%, rgb(255 255 255 / 0) 78%),
+      linear-gradient(180deg, rgb(150 158 176 / 0.28), rgb(232 228 218 / 0.25) 40%, rgb(120 128 150 / 0.3)),
+      linear-gradient(160deg, rgb(214 208 255 / 0.35), rgb(255 217 207 / 0.3) 45%, rgb(227 247 238 / 0.35)),
+      url('/foil/wrapper.webp') center / cover,
+      #e8e4da;
+    box-shadow: 0 30px 60px -20px rgb(0 0 0 / 0.7);
+    min-height: 560px;
+  }
+  .pack__print { position: relative; z-index: 1; display: flex; flex-direction: column; }
+  .pack__set { font-family: var(--label); font-weight: 700; text-transform: uppercase; letter-spacing: 0.1em; font-size: 0.72rem; color: var(--ink-soft); display: flex; gap: 10px; align-items: center; }
+  .pack__odds .pack__set .num { background: var(--ink); color: var(--stock); padding: 3px 6px 1px; border-radius: 3px; letter-spacing: 0.02em; font-size: 1em; margin: 0; }
+  .pack__name { font-size: clamp(4.5rem, 9.5vw, 9.5rem); line-height: 0.88; letter-spacing: -0.02em; display: grid; }
+  .pack__name span:last-child { color: var(--ink); }
+  .pack__title { font-family: var(--display); font-weight: 700; text-transform: uppercase; font-size: clamp(1.3rem, 1.9vw, 1.75rem); letter-spacing: 0.01em; margin-top: 0.55em; }
+  .pack__bio { margin-top: 1.1em; max-width: 34ch; font-size: clamp(1.05rem, 1.25vw, 1.2rem); color: var(--ink-soft); }
+  .pack__actions { margin-top: 2em; display: flex; flex-wrap: wrap; align-items: center; gap: 18px 28px; }
+  .pack__actions .textlink { color: var(--ink); text-decoration-color: rgb(22 22 26 / 0.35); }
+  .pack__odds { position: relative; z-index: 1; margin-top: 2.5em; padding-top: 14px; border-top: 2px dashed rgb(22 22 26 / 0.3); font-size: 0.95rem; color: var(--ink-soft); display: flex; flex-wrap: wrap; justify-content: space-between; align-items: center; gap: 10px 20px; }
+  .pack__odds .num { font-size: 1.5em; color: var(--ink); margin-right: 4px; }
+
+
+  .pack__tear { position: absolute; left: 0; right: 0; top: -22px; width: 100%; height: 30px; fill: #d9d3c4; filter: drop-shadow(0 -2px 0 rgb(255 255 255 / 0.5)); }
+  .pack__seal { position: absolute; z-index: 2; top: -18px; right: -24px; width: 92px; height: 92px; border-radius: 50%; display: grid; place-content: center; text-align: center; gap: 2px;
+    background: var(--ink); color: var(--stock); transform: rotate(12deg); box-shadow: 0 0 0 3px var(--stock), 0 0 0 5px var(--ink); }
+  .pack__seal .num { font-size: 1.35rem; line-height: 1; }
+  .pack__seal span:last-child { font-family: var(--label); font-weight: 700; text-transform: uppercase; letter-spacing: 0.1em; font-size: 0.55rem; }
+  .fanback { position: absolute; top: 50%; left: 50%; width: clamp(240px, 24vw, 360px); aspect-ratio: 5 / 7; transform: translate(-6%, -86%) rotate(14deg);
+    background: var(--stock); color: var(--ink); border-radius: var(--radius-card); padding: 52px 22px 22px; display: flex; flex-direction: column; justify-content: flex-start; gap: 6px;
+    background-image: repeating-linear-gradient(0deg, rgb(22 22 26 / 0.035) 0 1px, transparent 1px 4px); box-shadow: 0 24px 48px -12px rgb(0 0 0 / 0.6); }
+  .fanback__code { position: absolute; top: 20px; left: 22px; font-size: 0.95rem; color: var(--ink-soft); }
+  .fanback__big { font-size: clamp(4rem, 8vw, 7rem); line-height: 0.8; }
+  .fanback__label { font-size: 0.85rem; color: var(--ink-soft); max-width: 18ch; }
+  .pack__fan { position: relative; height: min(78svh, 760px); min-height: 520px; }
+  .fan { position: absolute; top: 50%; left: 50%; width: clamp(240px, 24vw, 360px); transition: transform 0.9s var(--ease-out); }
+  .fan--0 { transform: translate(-118%, -46%) rotate(-10deg); }
+  .fan--1 { transform: translate(-50%, -54%) rotate(0deg) scale(1.06); z-index: 2; }
+  .fan--2 { transform: translate(18%, -46%) rotate(10deg); }
+  .fan:hover { z-index: 3; }
+  .pack__hint { position: absolute; bottom: 0; left: 50%; transform: translateX(-50%); font-family: var(--label); font-weight: 700; text-transform: uppercase; letter-spacing: 0.12em; color: var(--text-soft); font-size: 0.7rem; white-space: nowrap; }
+  @media (prefers-reduced-motion: no-preference) {
+    .fan { animation: deal 1.1s var(--ease-out) both; }
+    .fan--0 { animation-delay: 0.15s; } .fan--1 { animation-delay: 0.3s; } .fan--2 { animation-delay: 0.45s; }
+    @keyframes deal { from { opacity: 0; translate: 0 18%; } }
+  }
+
+  @media (max-width: 900px) {
+    .pack { grid-template-columns: 1fr; padding-top: 72px; gap: 20px; min-height: 0; }
+    .pack__wrapper { min-height: 0; padding: 28px 22px 18px; }
+    .pack__name { font-size: clamp(3.6rem, 19vw, 5.5rem); }
+    .pack__title { font-size: 1.2rem; }
+    .pack__bio { font-size: 1rem; margin-top: 0.8em; }
+    .pack__actions { margin-top: 1.4em; gap: 14px 22px; }
+    .pack__actions .tear { font-size: 0.92rem; padding: 1.1em 1.2em; }
+    .pack__odds { margin-top: 1.4em; padding-top: 10px; font-size: 0.85rem; }
+    .pack__odds .pack__set { display: none; }
+    .pack__fan { height: auto; min-height: 0; display: flex; gap: 14px; overflow-x: auto; scroll-snap-type: x mandatory; margin: 0 calc(var(--gutter) * -1); padding: 8px var(--gutter) 40px; }
+    .fan { position: relative; top: auto; left: auto; flex: 0 0 62%; max-width: 300px; transform: none !important; scroll-snap-align: center; }
+    .pack__hint { bottom: 8px; }
+    .fan--1 { order: -1; }
+    .fanback { display: none; }
+    .pack__seal { width: 70px; height: 70px; top: 16px; right: 16px; bottom: auto; }
+    .pack__seal .num { font-size: 1.05rem; }
+  }
+
+  /* ---------- BINDER ---------- */
+  .binder { padding: clamp(96px, 12vw, 160px) 0 clamp(80px, 10vw, 140px); background: var(--ground-2); }
+  .binder__head { display: flex; flex-wrap: wrap; align-items: end; justify-content: space-between; gap: 16px 48px; }
+  .binder__head p { max-width: 38ch; color: var(--text-soft); }
+  .tabs { display: flex; flex-wrap: wrap; gap: 8px; margin: 40px 0 32px; }
+  .tabs button {
+    font-family: var(--label); font-weight: 700; text-transform: uppercase; letter-spacing: 0.07em; font-size: 0.78rem;
+    background: transparent; color: var(--text-soft); border: 1.5px solid var(--line); border-radius: 6px 6px 0 0; border-bottom-width: 3px;
+    padding: 10px 14px 7px; cursor: pointer; display: inline-flex; gap: 8px; align-items: baseline; transition: color 0.3s, border-color 0.3s, background-color 0.3s;
+  }
+  .tabs button .num { font-size: 0.85em; color: inherit; opacity: 0.7; }
+  .tabs button:hover { color: var(--text); border-color: var(--text-soft); }
+  .tabs button[aria-pressed='true'] { background: var(--stock); color: var(--ink); border-color: var(--stock); }
+  .sheet {
+    list-style: none; margin: 0; padding: clamp(14px, 2vw, 24px); display: grid; gap: clamp(14px, 2vw, 24px);
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    background: rgb(255 255 255 / 0.02); border: 1px solid var(--line); border-radius: 10px;
+  }
+  .pocket {
+    position: relative; padding: 8px; border-radius: 12px;
+    background: linear-gradient(160deg, rgb(255 255 255 / 0.06), rgb(255 255 255 / 0.015) 40%, rgb(255 255 255 / 0.04));
+    box-shadow: inset 0 0 0 1px rgb(255 255 255 / 0.07);
+    view-transition-class: pocket;
+  }
+  .pocket::after { content: ''; position: absolute; inset: 8px; border-radius: var(--radius-card); pointer-events: none; background: linear-gradient(115deg, rgb(255 255 255 / 0) 30%, rgb(255 255 255 / 0.09) 38%, rgb(255 255 255 / 0) 46%); }
+  .pocket[hidden] { display: none; }
+  @media (min-width: 1280px) { .sheet { grid-template-columns: repeat(5, minmax(0, 1fr)); } }
+  @media (max-width: 1100px) { .sheet { grid-template-columns: repeat(3, minmax(0, 1fr)); } }
+  @media (max-width: 700px) { .tabs { flex-wrap: nowrap; overflow-x: auto; margin-right: calc(var(--gutter) * -1); padding-right: var(--gutter); scrollbar-width: none; } .tabs button { flex: none; } }
+  @media (max-width: 700px) { .sheet { grid-template-columns: repeat(2, minmax(0, 1fr)); padding: 8px; gap: 8px; } .pocket { padding: 4px; } .pocket::after { inset: 4px; } }
+
+  /* ---------- STATS ---------- */
+  .stats { padding: clamp(96px, 12vw, 160px) 0; }
+  .statcard {
+    background: var(--stock); color: var(--ink); border-radius: 18px; padding: clamp(24px, 4vw, 56px);
+    background-image: repeating-linear-gradient(0deg, rgb(22 22 26 / 0.035) 0 1px, transparent 1px 4px);
+    box-shadow: 0 30px 60px -24px rgb(0 0 0 / 0.7);
+  }
+  .statcard__head { display: flex; flex-wrap: wrap; justify-content: space-between; align-items: end; gap: 8px 24px; border-bottom: 3px solid var(--ink); padding-bottom: 16px; }
+  .statcard__head p { color: var(--ink-soft); font-size: 1.1rem; }
+  .stattable { width: 100%; border-collapse: collapse; margin-top: 8px; }
+  .stattable th, .stattable td { text-align: left; padding: 16px 12px 14px 0; border-bottom: 1px solid rgb(22 22 26 / 0.18); vertical-align: baseline; }
+  .stattable thead th { font-family: var(--label); font-weight: 700; text-transform: uppercase; letter-spacing: 0.1em; font-size: 0.72rem; color: var(--ink-soft); }
+  .stattable tbody th { font-family: var(--display); font-weight: 700; text-transform: uppercase; font-size: clamp(1.4rem, 3vw, 2.4rem); line-height: 0.95; }
+  .stattable td { color: var(--ink-soft); }
+  .stattable td.num, .stattable thead th:last-child { text-align: right; padding-right: 0; }
+  .stattable td.num { color: var(--ink); font-size: clamp(2.2rem, 6vw, 5rem); line-height: 0.85; white-space: nowrap; }
+  .stattable tr.total th, .stattable tr.total td.num { color: var(--red-ink); }
+  .stattable tr.total td.num { font-size: clamp(3.5rem, 11vw, 9rem); }
+  .roster { margin-top: 40px; }
+  .roster h3 { font-size: 1.2rem; letter-spacing: 0.06em; color: var(--ink-soft); }
+  .roster ul { list-style: none; padding: 0; margin: 14px 0 0; display: flex; flex-wrap: wrap; gap: 8px; }
+  .roster li { font-family: var(--label); font-weight: 700; text-transform: uppercase; font-size: 0.78rem; letter-spacing: 0.06em; border: 1.5px solid var(--ink); border-radius: 4px; padding: 6px 10px 3px; }
+  @media (max-width: 640px) { .stattable td:nth-child(2), .stattable thead th:nth-child(2) { display: none; } }
+
+  /* ---------- HOW ---------- */
+  .how { padding: clamp(80px, 10vw, 140px) 0; border-top: 1px solid var(--line); }
+  .how__grid { display: grid; grid-template-columns: minmax(0, 5fr) minmax(0, 7fr); gap: clamp(32px, 6vw, 96px); }
+  .how__intro { position: sticky; top: 110px; align-self: start; }
+  .how__intro p { margin-top: 24px; color: var(--text-soft); max-width: 36ch; font-size: 1.15rem; }
+  .how__steps { list-style: none; margin: 0; padding: 0; display: grid; }
+  .how__steps li { display: grid; grid-template-columns: auto 1fr; gap: clamp(16px, 3vw, 40px); padding: 36px 0; border-top: 1px solid var(--line); }
+  .how__steps li:first-child { border-top: 0; padding-top: 0; }
+  .how__n { font-size: clamp(4rem, 9vw, 7.5rem); line-height: 0.75; color: transparent; -webkit-text-stroke: 1.5px var(--text-soft); }
+  .how__steps h3 { color: var(--text); font-size: clamp(2rem, 4vw, 3.2rem); }
+  .how__steps p { margin-top: 12px; color: var(--text-soft); max-width: 52ch; }
+  @media (max-width: 860px) { .how__grid { grid-template-columns: 1fr; } .how__intro { position: static; } }
+
+  /* ---------- CHECKLIST ---------- */
+  .check { padding: clamp(80px, 10vw, 140px) 0; background: var(--ground-2); }
+  .check__card {
+    background: var(--stock); color: var(--ink); border-radius: 18px; padding: clamp(24px, 4vw, 56px);
+    background-image: repeating-linear-gradient(0deg, rgb(22 22 26 / 0.035) 0 1px, transparent 1px 4px);
+    box-shadow: 0 30px 60px -24px rgb(0 0 0 / 0.7); transform: rotate(-0.6deg);
+  }
+  .check__head { display: flex; flex-wrap: wrap; justify-content: space-between; align-items: end; gap: 12px 40px; border-bottom: 3px solid var(--ink); padding-bottom: 16px; }
+  .check__head p { color: var(--ink-soft); max-width: 36ch; }
+  .check__list { list-style: none; margin: 8px 0 0; padding: 0; display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); column-gap: clamp(24px, 5vw, 80px); }
+  .check__list li { display: grid; grid-template-columns: 30px 1fr; gap: 16px; padding: 20px 0; border-bottom: 1px solid rgb(22 22 26 / 0.18); }
+  .check__list svg { width: 28px; height: 28px; color: var(--ink); margin-top: 2px; }
+  .check__list strong { display: block; font-family: var(--display); font-weight: 700; text-transform: uppercase; font-size: clamp(1.5rem, 2.4vw, 2rem); line-height: 1; }
+  .check__list span { display: block; margin-top: 6px; color: var(--ink-soft); }
+  @media (max-width: 700px) { .check__list { grid-template-columns: 1fr; } }
+
+  /* ---------- ABOUT ---------- */
+  .about { padding: clamp(80px, 10vw, 140px) 0; }
+  .about__grid { display: grid; grid-template-columns: minmax(0, 5fr) minmax(0, 7fr); gap: clamp(32px, 6vw, 96px); }
+  .about__text { display: grid; gap: 1.1em; font-size: clamp(1.15rem, 1.6vw, 1.4rem); line-height: 1.5; max-width: 40ch; }
+  @media (max-width: 860px) { .about__grid { grid-template-columns: 1fr; } }
+
+  /* ---------- FAQ ---------- */
+  .faq { padding: clamp(80px, 10vw, 140px) 0; border-top: 1px solid var(--line); }
+  .faq__grid { display: grid; grid-template-columns: minmax(0, 5fr) minmax(0, 7fr); gap: clamp(32px, 6vw, 96px); }
+  .faq details { border-top: 1px solid var(--line); }
+  .faq details:last-child { border-bottom: 1px solid var(--line); }
+  .faq summary { list-style: none; cursor: pointer; display: flex; justify-content: space-between; align-items: center; gap: 16px; padding: 22px 0; font-size: 1.2rem; font-weight: 500; }
+  .faq summary::-webkit-details-marker { display: none; }
+  .faq summary svg { width: 22px; height: 22px; flex: none; color: var(--text-soft); transition: transform 0.4s var(--ease-out); }
+  .faq details[open] summary svg { transform: rotate(180deg); }
+  .faq details p { padding: 0 0 24px; color: var(--text-soft); max-width: 62ch; }
+  @media (max-width: 860px) { .faq__grid { grid-template-columns: 1fr; } }
+
+  /* ---------- FREE ---------- */
+  .free { padding: clamp(80px, 10vw, 140px) 0; background: var(--ground-2); overflow: hidden; }
+  .free__grid { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: clamp(32px, 6vw, 96px); align-items: center; }
+  .free__fan { position: relative; height: 420px; }
+  .free__fan img { position: absolute; left: 50%; top: 50%; width: 150px; border-radius: 18px; box-shadow: 0 20px 40px -12px rgb(0 0 0 / 0.7); transform: translate(calc(-50% + var(--i) * 70px), -50%) rotate(calc(var(--i) * 7deg)); transition: transform 0.6s var(--ease-out); }
+  .free__fan:hover img { transform: translate(calc(-50% + var(--i) * 92px), -52%) rotate(calc(var(--i) * 9deg)); }
+  .free__text p { margin-top: 20px; color: var(--text-soft); max-width: 40ch; font-size: 1.15rem; }
+  .free__dl { display: inline-block; margin-top: 28px; font-family: var(--label); font-weight: 700; text-transform: uppercase; letter-spacing: 0.07em; font-size: 0.85rem; color: var(--ink); background: var(--stock); padding: 14px 20px 11px; border-radius: 6px; text-decoration: none; transition: background-color 0.3s; }
+  .free__dl:hover { background: #fff; }
+  .free__dl .num { color: var(--ink-soft); font-size: 0.85em; }
+  @media (max-width: 860px) { .free__grid { grid-template-columns: 1fr; } .free__fan { height: 320px; } .free__fan img { width: 110px; transform: translate(calc(-50% + var(--i) * 48px), -50%) rotate(calc(var(--i) * 7deg)); } }
+
+  /* ---------- CLOSE ---------- */
+  .close { padding: clamp(96px, 12vw, 180px) 0; }
+  .close__grid { display: grid; grid-template-columns: minmax(0, 4fr) minmax(0, 8fr); gap: clamp(32px, 6vw, 96px); align-items: center; }
+  .close__slot { aspect-ratio: 5 / 7; max-width: 300px; border: 2px dashed var(--line); border-radius: var(--radius-card); display: grid; place-content: center; text-align: center; gap: 8px; color: var(--text-soft); }
+  .close__slot .num { font-size: 3.5rem; line-height: 1; color: var(--text); }
+  .close__slot span:last-child { font-family: var(--label); font-weight: 700; text-transform: uppercase; letter-spacing: 0.08em; }
+  .close h2 { font-size: clamp(3.5rem, 10vw, 6rem); }
+  .close__grid > div > p { margin-top: 20px; color: var(--text-soft); max-width: 46ch; font-size: 1.15rem; }
+  .close__actions { margin-top: 36px; display: grid; gap: 20px; justify-items: start; }
+  .close__alt { color: var(--text-soft); }
+  @media (max-width: 760px) { .close__grid { grid-template-columns: 1fr; } .close__slot { max-width: 180px; } }
+</style>

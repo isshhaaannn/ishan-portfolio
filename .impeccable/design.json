@@ -1,0 +1,503 @@
+{
+  "schemaVersion": 2,
+  "generatedAt": "2026-11-21T23:22:12+00:00",
+  "title": "Design System: Ishan Mitra, The Rookie Set",
+  "extensions": {
+    "colorMeta": {
+      "ground": {
+        "role": "neutral",
+        "displayName": "Grading-Case Black",
+        "canonical": "oklch(16.0% 0.011 276.2)",
+        "tonalRamp": [
+          "#0a0b10",
+          "#23252a",
+          "#404248",
+          "#5f6167",
+          "#808289",
+          "#a3a5ac",
+          "#c7c9d0",
+          "#eceef6"
+        ]
+      },
+      "ground-2": {
+        "role": "neutral",
+        "displayName": "Case Black, Lifted",
+        "canonical": "oklch(20.3% 0.016 279.3)",
+        "tonalRamp": [
+          "#0a0a12",
+          "#23242d",
+          "#40414b",
+          "#5f606a",
+          "#80828c",
+          "#a3a4af",
+          "#c7c8d4",
+          "#eceef9"
+        ]
+      },
+      "ground-3": {
+        "role": "neutral",
+        "displayName": "Case Black, Raised",
+        "canonical": "oklch(24.6% 0.017 280.1)",
+        "tonalRamp": [
+          "#0a0a12",
+          "#23242d",
+          "#40414b",
+          "#5f606b",
+          "#80818d",
+          "#a3a4b0",
+          "#c7c8d4",
+          "#ecedfa"
+        ]
+      },
+      "line": {
+        "role": "neutral",
+        "displayName": "Case Seam",
+        "canonical": "oklch(30.1% 0.020 281.0)",
+        "tonalRamp": [
+          "#0a0a13",
+          "#23242f",
+          "#40414d",
+          "#5f606d",
+          "#80818e",
+          "#a2a4b2",
+          "#c6c8d6",
+          "#ecedfc"
+        ]
+      },
+      "stock": {
+        "role": "neutral",
+        "displayName": "Card Stock Bone",
+        "canonical": "oklch(91.9% 0.014 88.7)",
+        "tonalRamp": [
+          "#0e0b05",
+          "#28251d",
+          "#45423a",
+          "#646158",
+          "#868279",
+          "#a8a59b",
+          "#cdc9bf",
+          "#f2eee4"
+        ]
+      },
+      "stock-2": {
+        "role": "neutral",
+        "displayName": "Stock, Aged",
+        "canonical": "oklch(86.4% 0.021 88.7)",
+        "tonalRamp": [
+          "#0f0b03",
+          "#292519",
+          "#474235",
+          "#666154",
+          "#878274",
+          "#aaa596",
+          "#cfc9ba",
+          "#f4eedf"
+        ]
+      },
+      "ink": {
+        "role": "neutral",
+        "displayName": "Print Ink",
+        "canonical": "oklch(20.2% 0.008 285.7)",
+        "tonalRamp": [
+          "#0b0b0e",
+          "#252529",
+          "#414146",
+          "#616166",
+          "#828287",
+          "#a4a4aa",
+          "#c8c8ce",
+          "#eeeef4"
+        ]
+      },
+      "ink-soft": {
+        "role": "neutral",
+        "displayName": "Print Ink, Soft",
+        "canonical": "oklch(39.9% 0.012 87.5)",
+        "tonalRamp": [
+          "#0d0b06",
+          "#28251e",
+          "#45423b",
+          "#64615a",
+          "#85827a",
+          "#a8a59d",
+          "#ccc9c0",
+          "#f2eee5"
+        ]
+      },
+      "text": {
+        "role": "neutral",
+        "displayName": "Case Text",
+        "canonical": "oklch(93.4% 0.011 89.7)",
+        "tonalRamp": [
+          "#0d0b06",
+          "#27251f",
+          "#44423b",
+          "#64615a",
+          "#85827b",
+          "#a8a59d",
+          "#ccc9c1",
+          "#f1eee6"
+        ]
+      },
+      "text-soft": {
+        "role": "neutral",
+        "displayName": "Case Text, Soft",
+        "canonical": "oklch(72.9% 0.020 295.7)",
+        "tonalRamp": [
+          "#0c0913",
+          "#26232e",
+          "#43404c",
+          "#625f6c",
+          "#83808d",
+          "#a6a3b1",
+          "#cac7d5",
+          "#efecfb"
+        ]
+      },
+      "red": {
+        "role": "secondary",
+        "displayName": "Holo Red",
+        "canonical": "oklch(65.3% 0.234 31.3)",
+        "tonalRamp": [
+          "#1e0100",
+          "#4a0802",
+          "#7c1305",
+          "#b1220d",
+          "#ee2401",
+          "#fe755e",
+          "#fdb4a6",
+          "#ffe9e5"
+        ]
+      },
+      "red-ink": {
+        "role": "secondary",
+        "displayName": "Holo Red, Stock Ink",
+        "canonical": "oklch(58.5% 0.219 31.7)",
+        "tonalRamp": [
+          "#1e0100",
+          "#4b0500",
+          "#7d0f00",
+          "#b31c01",
+          "#e83417",
+          "#fd765f",
+          "#ffb3a4",
+          "#fee9e5"
+        ]
+      },
+      "cobalt": {
+        "role": "primary",
+        "displayName": "Booking Cobalt",
+        "canonical": "oklch(52.5% 0.264 267.1)",
+        "tonalRamp": [
+          "#020034",
+          "#090278",
+          "#1606c4",
+          "#253ef3",
+          "#4c75fb",
+          "#7da0fe",
+          "#b3c8fc",
+          "#e8eefe"
+        ]
+      },
+      "cobalt-hi": {
+        "role": "primary",
+        "displayName": "Booking Cobalt, Lit",
+        "canonical": "oklch(58.2% 0.228 269.8)",
+        "tonalRamp": [
+          "#030132",
+          "#100474",
+          "#2018b8",
+          "#3548df",
+          "#5473fb",
+          "#829fff",
+          "#b5c7fd",
+          "#e8eefe"
+        ]
+      },
+      "white": {
+        "role": "neutral",
+        "displayName": "Plate White",
+        "canonical": "oklch(100.0% 0.000 89.9)",
+        "tonalRamp": [
+          "#0b0b0b",
+          "#252525",
+          "#424242",
+          "#616161",
+          "#828282",
+          "#a5a5a5",
+          "#c9c9c9",
+          "#eeeeee"
+        ]
+      }
+    },
+    "typographyMeta": {
+      "display": {
+        "displayName": "Display",
+        "purpose": "The name on the pack wrapper; once per site."
+      },
+      "headline": {
+        "displayName": "Headline",
+        "purpose": "Section headings, uppercase, balanced."
+      },
+      "title": {
+        "displayName": "Title",
+        "purpose": "Step titles, subsections, checklist rows."
+      },
+      "nameplate": {
+        "displayName": "Nameplate",
+        "purpose": "Client name on a card plate; container-scaled."
+      },
+      "numeral": {
+        "displayName": "Numeral",
+        "purpose": "Every stat, serial, count and set code; tabular, kerning off because Advercase figure kerning is broken."
+      },
+      "body": {
+        "displayName": "Body",
+        "purpose": "Prose; Helvetica Neue via local() only, never redistributed."
+      },
+      "lead": {
+        "displayName": "Lead",
+        "purpose": "Intro paragraph beside a section heading."
+      },
+      "label": {
+        "displayName": "Label",
+        "purpose": "Nav, tabs, button text, chips; uppercase tracked bold."
+      }
+    },
+    "shadows": [
+      {
+        "name": "card-on-case",
+        "value": "0 2px 4px rgb(0 0 0 / 0.35), 0 24px 48px -12px rgb(0 0 0 / 0.6)",
+        "purpose": "Every card face."
+      },
+      {
+        "name": "panel-on-case",
+        "value": "0 30px 60px -24px rgb(0 0 0 / 0.7)",
+        "purpose": "Stats and checklist stock panels; the pack wrapper uses -20px spread."
+      },
+      {
+        "name": "device-on-case",
+        "value": "0 20px 40px -12px rgb(0 0 0 / 0.7)",
+        "purpose": "Fanned phone wallpapers."
+      },
+      {
+        "name": "pocket-sleeve",
+        "value": "inset 0 0 0 1px rgb(255 255 255 / 0.07)",
+        "purpose": "Binder pockets."
+      }
+    ],
+    "motion": [
+      {
+        "name": "ease-out",
+        "value": "cubic-bezier(0.16, 1, 0.3, 1)",
+        "purpose": "The single easing curve for every settle, lift and flip."
+      },
+      {
+        "name": "color-shift",
+        "value": "0.3s",
+        "purpose": "Colour and underline hovers."
+      },
+      {
+        "name": "lift",
+        "value": "0.4s",
+        "purpose": "Arrow nudge, button lift, foil opacity."
+      },
+      {
+        "name": "tilt-settle",
+        "value": "0.6s",
+        "purpose": "Card returning to rest; pointer tracking runs at 0.08s linear."
+      },
+      {
+        "name": "flip",
+        "value": "0.9s",
+        "purpose": "Card flip to stat back; hero fan settle."
+      },
+      {
+        "name": "stat-roll",
+        "value": "1.4s, 0.25s delay",
+        "purpose": "Numerals count up from zero via @property --n."
+      },
+      {
+        "name": "deal",
+        "value": "1.1s, staggered 0.15s",
+        "purpose": "Hero holos dealt in on load; no-preference only."
+      },
+      {
+        "name": "tilt-range",
+        "value": "8deg standard, 14deg holo",
+        "purpose": "Pointer tilt; fine pointers without reduced motion only."
+      }
+    ],
+    "breakpoints": [
+      {
+        "name": "stats-compact",
+        "value": "640px"
+      },
+      {
+        "name": "phone",
+        "value": "700px"
+      },
+      {
+        "name": "split-collapse",
+        "value": "860px"
+      },
+      {
+        "name": "hero-collapse",
+        "value": "900px"
+      },
+      {
+        "name": "binder-3up",
+        "value": "1100px"
+      },
+      {
+        "name": "binder-5up",
+        "value": "1280px"
+      }
+    ]
+  },
+  "components": [
+    {
+      "name": "Booking Tear Strip",
+      "kind": "button",
+      "refersTo": "button-book",
+      "description": "Primary action. Cobalt perforated strip; only ever books the intro call.",
+      "html": "<a class=\"ds-tear\" href=\"#\">Book an intro call <svg viewBox=\"0 0 24 24\" width=\"16\" height=\"16\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2.5\" aria-hidden=\"true\"><path d=\"M4 12h15M13 6l6 6-6 6\"/></svg></a>",
+      "css": ".ds-tear{--perf:radial-gradient(circle at 50% 0,transparent 3px,#2b4bff 3.5px) 0 0/12px 6px repeat-x;position:relative;display:inline-flex;align-items:center;gap:.75em;padding:1.05em 1.4em;background:#2b4bff;color:#fff;text-decoration:none;font-family:'Helvetica Neue',Helvetica,Arial,sans-serif;font-weight:700;font-size:1rem;letter-spacing:.06em;text-transform:uppercase;line-height:1;transition:background-color .3s cubic-bezier(.16,1,.3,1),transform .4s cubic-bezier(.16,1,.3,1)}.ds-tear::before,.ds-tear::after{content:'';position:absolute;left:0;right:0;height:6px;background:var(--perf)}.ds-tear::before{top:-6px;transform:scaleY(-1)}.ds-tear::after{bottom:-6px}.ds-tear:hover{background:#4a66ff;--perf:radial-gradient(circle at 50% 0,transparent 3px,#4a66ff 3.5px) 0 0/12px 6px repeat-x;transform:translateY(-2px)}.ds-tear svg{transition:transform .4s cubic-bezier(.16,1,.3,1)}.ds-tear:hover svg{transform:translateX(4px)}.ds-tear:focus-visible{outline:2px solid #4a66ff;outline-offset:3px}"
+    },
+    {
+      "name": "Booking Compact",
+      "kind": "button",
+      "refersTo": "button-book-compact",
+      "description": "Header booking button.",
+      "html": "<a class=\"ds-bookc\" href=\"#\">Book a call</a>",
+      "css": ".ds-bookc{font-family:'Helvetica Neue',Helvetica,Arial,sans-serif;font-weight:700;text-transform:uppercase;letter-spacing:.08em;font-size:.78rem;background:#2b4bff;color:#fff;text-decoration:none;padding:10px 16px 8px;border-radius:4px;transition:background-color .3s cubic-bezier(.16,1,.3,1)}.ds-bookc:hover{background:#4a66ff}.ds-bookc:focus-visible{outline:2px solid #4a66ff;outline-offset:3px}"
+    },
+    {
+      "name": "Stock Button",
+      "kind": "button",
+      "refersTo": "button-stock",
+      "description": "Secondary action on the ground (free download).",
+      "html": "<a class=\"ds-stockbtn\" href=\"#\">Download the pack <span>(30 MB)</span></a>",
+      "css": ".ds-stockbtn{display:inline-block;font-family:'Helvetica Neue',Helvetica,Arial,sans-serif;font-weight:700;text-transform:uppercase;letter-spacing:.07em;font-size:.85rem;color:#16161a;background:#e8e4da;padding:14px 20px 11px;border-radius:6px;text-decoration:none;transition:background-color .3s}.ds-stockbtn:hover{background:#fff}.ds-stockbtn span{font-family:Advercase,'Times New Roman',serif;font-weight:700;font-kerning:none;font-feature-settings:'kern' 0;font-variant-numeric:tabular-nums;color:#4a4740;font-size:.85em}.ds-stockbtn:focus-visible{outline:2px solid #4a66ff;outline-offset:3px}"
+    },
+    {
+      "name": "Set Tabs",
+      "kind": "chip",
+      "refersTo": "tab-divider",
+      "description": "Binder divider tabs filtering cards by set; active fills with stock.",
+      "html": "<div class=\"ds-tabs\"><button aria-pressed=\"true\">All <span>48</span></button><button aria-pressed=\"false\">Carousels <span>21</span></button><button aria-pressed=\"false\">Motion <span>7</span></button></div>",
+      "css": ".ds-tabs{display:flex;gap:8px;background:#15161e;padding:16px}.ds-tabs button{font-family:'Helvetica Neue',Helvetica,Arial,sans-serif;font-weight:700;text-transform:uppercase;letter-spacing:.07em;font-size:.78rem;background:transparent;color:#a8a5b3;border:1.5px solid #2c2d38;border-bottom-width:3px;border-radius:6px 6px 0 0;padding:10px 14px 7px;cursor:pointer;display:inline-flex;gap:8px;align-items:baseline;transition:color .3s,border-color .3s,background-color .3s}.ds-tabs button span{font-family:Advercase,'Times New Roman',serif;font-weight:700;font-kerning:none;font-feature-settings:'kern' 0;font-variant-numeric:tabular-nums;font-size:.85em;opacity:.7}.ds-tabs button:hover{color:#ece9e1;border-color:#a8a5b3}.ds-tabs button[aria-pressed=true]{background:#e8e4da;color:#16161a;border-color:#e8e4da}.ds-tabs button:focus-visible{outline:2px solid #4a66ff;outline-offset:3px}"
+    },
+    {
+      "name": "Top Bar",
+      "kind": "nav",
+      "description": "Fixed header: IM mark chip, set line, tracked section links, compact booking.",
+      "html": "<header class=\"ds-bar\"><a class=\"ds-bar__mark\" href=\"#\"><b>IM</b><span>Rookie Set · 26</span></a><nav><a href=\"#\">The set</a><a href=\"#\">Stats</a><a href=\"#\">How it works</a><a href=\"#\">FAQ</a></nav><a class=\"ds-bar__cta\" href=\"#\">Book a call</a></header>",
+      "css": ".ds-bar{display:flex;align-items:center;justify-content:space-between;gap:24px;padding:14px 24px;background:#0c0d12;font-family:'Helvetica Neue',Helvetica,Arial,sans-serif}.ds-bar__mark{display:inline-flex;align-items:center;gap:10px;text-decoration:none}.ds-bar__mark b{font-family:Advercase,'Times New Roman',serif;font-weight:700;font-kerning:none;font-feature-settings:'kern' 0;font-variant-numeric:tabular-nums;font-size:1.55rem;line-height:1;background:#e8e4da;color:#16161a;padding:4px 6px 1px;border-radius:4px}.ds-bar__mark span{font-weight:700;text-transform:uppercase;letter-spacing:.1em;font-size:.7rem;color:#a8a5b3}.ds-bar nav{display:flex;gap:28px}.ds-bar nav a{font-weight:700;text-transform:uppercase;letter-spacing:.08em;font-size:.75rem;text-decoration:none;color:#a8a5b3;transition:color .3s}.ds-bar nav a:hover{color:#ece9e1}.ds-bar__cta{font-weight:700;text-transform:uppercase;letter-spacing:.08em;font-size:.78rem;background:#2b4bff;color:#fff;text-decoration:none;padding:10px 16px 8px;border-radius:4px;transition:background-color .3s cubic-bezier(.16,1,.3,1)}.ds-bar__cta:hover{background:#4a66ff}.ds-bar a:focus-visible{outline:2px solid #4a66ff;outline-offset:3px}"
+    },
+    {
+      "name": "Collectible Card",
+      "kind": "card",
+      "refersTo": "card-base",
+      "description": "Standard 5:7 card: stock border, ink frame, team chip, serial, nameplate.",
+      "html": "<a class=\"ds-card\" href=\"#\"><div class=\"ds-card__frame\"><div class=\"ds-card__top\"><span class=\"ds-card__team\">The Hustle</span><span class=\"ds-card__serial\">07/48</span></div><div class=\"ds-card__plate\"><span class=\"ds-card__name\">Nike</span><span class=\"ds-card__pos\">Carousel design</span></div></div></a>",
+      "css": ".ds-card{display:block;width:240px;aspect-ratio:5/7;container-type:inline-size;background:#e8e4da;padding:4.2%;border-radius:14px;text-decoration:none;box-shadow:0 2px 4px rgb(0 0 0/.35),0 24px 48px -12px rgb(0 0 0/.6);transition:transform .6s cubic-bezier(.16,1,.3,1)}.ds-card:hover{transform:perspective(1200px) rotateX(3deg) rotateY(-4deg)}.ds-card:focus-visible{outline:2px solid #4a66ff;outline-offset:6px}.ds-card__frame{position:relative;height:100%;border-radius:8px;overflow:hidden;background:linear-gradient(140deg,#3a3d52,#16161a)}.ds-card__top{position:absolute;top:0;left:0;right:0;display:flex;justify-content:space-between;align-items:start;padding:7% 7% 0}.ds-card__team{font-family:'Helvetica Neue',Helvetica,Arial,sans-serif;font-weight:700;text-transform:uppercase;letter-spacing:.06em;font-size:.6rem;line-height:1.1;color:#16161a;background:#e8e4da;padding:.45em .6em .35em;border-radius:3px}.ds-card__serial{font-family:Advercase,'Times New Roman',serif;font-weight:700;font-kerning:none;font-feature-settings:'kern' 0;font-variant-numeric:tabular-nums;font-size:.8rem;color:#e8e4da;background:#16161a;padding:.3em .5em .2em;border-radius:3px;line-height:1}.ds-card__plate{position:absolute;left:0;right:0;bottom:0;padding:7% 7% 6%;display:grid;gap:.2em;background:linear-gradient(to top,rgb(12 13 18/.96) 35%,rgb(12 13 18/0))}.ds-card__name{font-family:Advercase,'Times New Roman',serif;font-weight:700;text-transform:uppercase;color:#fff;font-size:clamp(1.2rem,10.5cqi,3rem);line-height:.92;letter-spacing:-.005em}.ds-card__pos{font-family:'Helvetica Neue',Helvetica,Arial,sans-serif;font-size:.75rem;color:#d8d2c3;letter-spacing:.02em}"
+    },
+    {
+      "name": "Holo Card",
+      "kind": "custom",
+      "refersTo": "card-base",
+      "description": "Flagship parallel: chrome frame, refractor sheen, red plate. Flagships only. (Build uses /foil/chrome.webp and /foil/prizm.webp; gradients stand in here.)",
+      "html": "<div class=\"ds-holo\"><div class=\"ds-holo__frame\"><span class=\"ds-holo__serial\">01/03</span><div class=\"ds-holo__plate\"><span class=\"ds-holo__name\">Steven Bartlett</span><span class=\"ds-holo__pos\">Founder-brand carousels</span></div></div><div class=\"ds-holo__sheen\"></div></div>",
+      "css": ".ds-holo{position:relative;width:240px;aspect-ratio:5/7;container-type:inline-size;padding:4.2%;border-radius:14px;background:linear-gradient(135deg,#cfd3da,#f4f5f8 30%,#9aa1ad 55%,#e6e8ee 80%,#b9bec8);box-shadow:0 2px 4px rgb(0 0 0/.35),0 24px 48px -12px rgb(0 0 0/.6);overflow:hidden;transition:transform .6s cubic-bezier(.16,1,.3,1)}.ds-holo:hover{transform:perspective(1200px) rotateX(5deg) rotateY(-7deg)}.ds-holo__frame{position:relative;height:100%;border-radius:8px;overflow:hidden;background:linear-gradient(140deg,#2a2d40,#16161a)}.ds-holo__serial{position:absolute;top:7%;right:7%;font-family:Advercase,'Times New Roman',serif;font-weight:700;font-kerning:none;font-feature-settings:'kern' 0;font-variant-numeric:tabular-nums;font-size:.8rem;color:#16161a;background:#ff3b1f;padding:.3em .5em .2em;border-radius:3px;line-height:1}.ds-holo__plate{position:absolute;left:0;right:0;bottom:0;padding:7% 7% 6%;display:grid;gap:.2em;background:linear-gradient(to top,#ff3b1f 0,#ff3b1f 34%,rgb(255 59 31/0) 100%)}.ds-holo__name{font-family:Advercase,'Times New Roman',serif;font-weight:700;text-transform:uppercase;color:#fff;font-size:clamp(1.2rem,10.5cqi,3rem);line-height:.92}.ds-holo__pos{font-family:'Helvetica Neue',Helvetica,Arial,sans-serif;font-size:.75rem;color:#16161a}.ds-holo__sheen{position:absolute;inset:0;border-radius:inherit;pointer-events:none;mix-blend-mode:color-dodge;opacity:.5;background:conic-gradient(from 210deg at 40% 30%,#ff9ad5,#9ae0ff,#b8ffb0,#fff59a,#ffb08a,#ff9ad5);filter:saturate(1.2) brightness(.8) contrast(1.35);transition:opacity .4s cubic-bezier(.16,1,.3,1)}.ds-holo:hover .ds-holo__sheen{opacity:.8}"
+    },
+    {
+      "name": "Card Back",
+      "kind": "card",
+      "refersTo": "card-back",
+      "description": "Stock back of a flipped holo: set code header, rolling stat blocks, swatches from the work.",
+      "html": "<div class=\"ds-back\"><div class=\"ds-back__head\"><span class=\"ds-back__name\">Steven Bartlett</span><span class=\"ds-back__code\">IM·26 01/03</span></div><dl class=\"ds-back__stats\"><div><dt>views</dt><dd>5M+</dd></div></dl><p>Founder-brand carousels with a new hierarchy system.</p><div class=\"ds-back__sw\"><span style=\"--c:#111111\"></span><span style=\"--c:#f2c230\"></span><span style=\"--c:#d8d2c3\"></span></div></div>",
+      "css": ".ds-back{width:240px;aspect-ratio:5/7;container-type:inline-size;background:#e8e4da;background-image:repeating-linear-gradient(0deg,rgb(22 22 26/.035) 0 1px,transparent 1px 4px);color:#16161a;border-radius:14px;padding:8% 8% 7%;display:flex;flex-direction:column;gap:.8em;font-family:'Helvetica Neue',Helvetica,Arial,sans-serif;font-size:.85rem;line-height:1.45;box-shadow:0 2px 4px rgb(0 0 0/.35),0 24px 48px -12px rgb(0 0 0/.6)}.ds-back__head{display:flex;justify-content:space-between;align-items:baseline;gap:8px;border-bottom:2px solid #16161a;padding-bottom:.5em}.ds-back__name{font-family:Advercase,'Times New Roman',serif;font-weight:700;text-transform:uppercase;font-size:1.6em;line-height:.9}.ds-back__code{font-family:Advercase,'Times New Roman',serif;font-weight:700;font-kerning:none;font-feature-settings:'kern' 0;font-variant-numeric:tabular-nums;font-size:.85em;color:#e02a0a;white-space:nowrap}.ds-back__stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(6em,1fr));gap:.6em;margin:0}.ds-back__stats div{background:#16161a;color:#e8e4da;border-radius:6px;padding:.6em .7em .5em}.ds-back__stats dt{font-size:.78em;color:#d8d2c3}.ds-back__stats dd{margin:0;font-family:Advercase,'Times New Roman',serif;font-weight:700;font-kerning:none;font-feature-settings:'kern' 0;font-variant-numeric:tabular-nums;font-size:3em;line-height:.9}.ds-back p{margin:0;flex:1}.ds-back__sw{display:flex;gap:4px}.ds-back__sw span{flex:1;height:1.6em;border-radius:3px;background:var(--c)}"
+    },
+    {
+      "name": "Stock Panel",
+      "kind": "custom",
+      "refersTo": "stock-panel",
+      "description": "Card-stock sheet holding the career-stats table or the checklist.",
+      "html": "<div class=\"ds-panel\"><div class=\"ds-panel__head\"><h2>Career stats</h2><p>IM·26 · Instagram carousels</p></div><div class=\"ds-panel__row\"><b>Steven Bartlett</b><span>5M+</span></div></div>",
+      "css": ".ds-panel{background:#e8e4da;background-image:repeating-linear-gradient(0deg,rgb(22 22 26/.035) 0 1px,transparent 1px 4px);color:#16161a;border-radius:18px;padding:32px;box-shadow:0 30px 60px -24px rgb(0 0 0/.7);font-family:'Helvetica Neue',Helvetica,Arial,sans-serif}.ds-panel__head{display:flex;flex-wrap:wrap;justify-content:space-between;align-items:end;gap:8px 24px;border-bottom:3px solid #16161a;padding-bottom:16px}.ds-panel h2{margin:0;font-family:Advercase,'Times New Roman',serif;font-weight:700;text-transform:uppercase;font-size:2.6rem;line-height:.9;letter-spacing:-.015em}.ds-panel__head p{margin:0;font-family:Advercase,'Times New Roman',serif;font-weight:700;font-kerning:none;font-feature-settings:'kern' 0;font-variant-numeric:tabular-nums;color:#4a4740;font-size:1.1rem}.ds-panel__row{display:flex;justify-content:space-between;align-items:baseline;padding:16px 0 14px;border-bottom:1px solid rgb(22 22 26/.18)}.ds-panel__row b{font-family:Advercase,'Times New Roman',serif;text-transform:uppercase;font-size:1.6rem;line-height:.95}.ds-panel__row span{font-family:Advercase,'Times New Roman',serif;font-weight:700;font-kerning:none;font-feature-settings:'kern' 0;font-variant-numeric:tabular-nums;font-size:4rem;line-height:.85}"
+    }
+  ],
+  "narrative": {
+    "northStar": "The Rookie Set",
+    "overview": "The site is a premium chrome sports-card set laid on a grading-case black ground. Every project is a 5:7 collectible card: the work fills the front inside a stock border, a nameplate carries the client and the role, and the flagships are holo parallels with a chrome frame and a refractor sheen that follows the pointer. Click a holo and it flips to a stock back with real stats that roll up from zero. Everything else on the page is made from the same parts as the card: pack wrapper, binder sheet and pockets, card-back stat tables, checklist cards, set codes (\"IM·26\"), and serials (\"01/03\").\n\nThe world is built from two materials, black case and bone card stock, and most surfaces are one or the other. Colour is rationed by role. Cobalt means booking a call, red marks flagship rarity, and the client work supplies every other colour. Type pairs a condensed, uppercase display face for nameplates and numerals with plain Helvetica Neue for prose, so the voice sits in the card furniture and the prose stays quiet. Desktop is bold: fanned holos, pointer tilt, the pack dealing itself in. Phones and reduced motion are calm: no tilt, a static sheen, a horizontal snap rail of cards.\n\nThe build supersedes the direction contract on type. The contract named Big Shoulders Display and Schibsted Grotesk, but the shipped faces are Advercase and Helvetica Neue.",
+    "keyCharacteristics": [
+      "Two materials: grading-case black ground and bone card stock.",
+      "Every project is a 5:7 card with a 14px corner, a stock border and a nameplate.",
+      "Holo treatment (chrome frame, prizm refractor, red plate) appears only on flagships.",
+      "Numerals are display-face, tabular, with kerning off, and they roll in.",
+      "Colour is rationed by role, and the work supplies the rest of the palette.",
+      "Bold on desktop, calm on touch and under reduced motion."
+    ],
+    "rules": [
+      {
+        "name": "The Cobalt Means Book Rule",
+        "body": "Cobalt fills only a control that books the intro call. If clicking it does not lead to booking, it is not cobalt.",
+        "section": "colors"
+      },
+      {
+        "name": "The Rarity Red Rule",
+        "body": "Red marks a flagship holo and nothing else. It is not a hover colour, an emphasis colour or a decoration for non-flagship cards. On stock it is always red-ink.",
+        "section": "colors"
+      },
+      {
+        "name": "The Work Supplies Colour Rule",
+        "body": "Apart from the two signals, the only other colour on the page comes from the client work itself: card art, and swatch rows sampled from the work.",
+        "section": "colors"
+      },
+      {
+        "name": "The Kerning-Off Figures Rule",
+        "body": "Any figure set in Advercase uses the numeral role, with `font-kerning: none` and `'kern' 0`. The font's figure kerning is broken. Headings keep normal kerning.",
+        "section": "typography"
+      },
+      {
+        "name": "The No Redistribution Rule",
+        "body": "Helvetica Neue loads only through `local()`, and Helvetica or Arial is the fallback. Never self-host or bundle it; the licence does not allow it.",
+        "section": "typography"
+      },
+      {
+        "name": "The Printer's Voice Rule",
+        "body": "Advercase is always uppercase and always 700 in the shipped build. Prose is never set in it.",
+        "section": "typography"
+      },
+      {
+        "name": "The Objects Cast, Furniture Doesn't Rule",
+        "body": "Only physical things (cards, stock panels, the wrapper, devices) carry drop shadows. Tabs, buttons, nav and text never do.",
+        "section": "elevation"
+      },
+      {
+        "name": "The Foil Is Earned Rule",
+        "body": "Chrome frame, prizm refractor and pointer glare at full strength belong to flagship holos only. Standard cards get only a faint glare.",
+        "section": "elevation"
+      }
+    ],
+    "dos": [
+      "Do make every project a 5:7 card with a 14px corner, stock border, ink frame and a nameplate in the nameplate role.",
+      "Do set every stat, serial, count and set code in the numeral role (Advercase 700, tabular, kerning off).",
+      "Do keep cobalt for booking controls only, with white text and the cobalt-hi hover.",
+      "Do use red-ink, never red, when red text sits on card stock.",
+      "Do turn off tilt on coarse pointers and under reduced motion, and leave the sheen as a static gradient.",
+      "Do use inline stroked SVG for icons and arrows.",
+      "Do keep Helvetica Neue on `local()` with the Helvetica and Arial fallback."
+    ],
+    "donts": [
+      "Don't use cobalt for anything that doesn't book a call.",
+      "Don't use red on non-flagship cards, as a hover colour or as general emphasis.",
+      "Don't give standard cards the chrome frame, prizm foil or red plate. Holo is a rarity.",
+      "Don't self-host or ship Helvetica Neue files.",
+      "Don't turn on kerning for Advercase figures.",
+      "Don't put drop shadows on buttons, tabs, nav or text.",
+      "Don't add tiny uppercase labels above headings. Set codes and serials belong on cards, chips and stat panels, not as section kickers."
+    ]
+  }
+}

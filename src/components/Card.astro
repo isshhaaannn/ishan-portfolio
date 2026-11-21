@@ -1,0 +1,184 @@
+---
+import type { Project } from '../data/projects';
+import { getMedia, coverOf } from '../lib/media';
+import palettes from '../data/palettes.json';
+
+interface Props {
+  project: Project;
+  serial?: string;
+  flip?: boolean;       // flippable holo with a stat back
+  href?: string;        // link card (binder)
+  eager?: boolean;
+  vt?: boolean;         // view-transition name (binder <-> case page)
+  class?: string;
+  style?: string;
+}
+const { project: p, serial, flip = false, href, eager = false, vt = false, class: cls = '', style } = Astro.props;
+const cover = coverOf(p.slug, p.cover ?? 0);
+const img = cover?.type === 'video' ? cover.poster : (cover?.small ?? cover?.src);
+const imgLarge = cover?.type === 'video' ? cover.poster : cover?.src;
+const count = getMedia(p.slug).length;
+const swatches: string[] = (palettes as Record<string, string[]>)[p.slug] ?? [];
+const holo = !!p.flagship;
+const Tag = href ? 'a' : 'article';
+---
+<Tag
+  class:list={['card', { 'card--holo': holo, 'card--flip': flip, 'card--link': !!href }, cls]}
+  href={href}
+  data-tilt
+  style={style}
+  aria-label={href ? `${p.name}: ${p.position}. Open the full set of ${count} pieces.` : undefined}
+>
+  <div class="card__inner">
+    <div class="card__face card__front" aria-hidden={flip ? 'false' : undefined}>
+      <div class="card__frame">
+        {img && (
+          <img
+            class="card__art"
+            src={img}
+            srcset={cover?.small && cover?.type === 'image' ? `${cover.small} 640w, ${imgLarge} 1600w` : undefined}
+            sizes="(max-width: 700px) 70vw, 420px"
+            alt=""
+            loading={eager ? 'eager' : 'lazy'}
+            decoding="async"
+            fetchpriority={eager ? 'high' : undefined}
+            style={vt ? `view-transition-name: art-${p.slug}` : undefined}
+          />
+        )}
+        <div class="card__top">
+          <span class="card__team">{p.team}</span>
+          {serial && <span class="card__serial num">{serial}</span>}
+        </div>
+        <div class="card__plate">
+          <span class="card__name">{p.name}</span>
+          <span class="card__pos">{p.position}</span>
+        </div>
+      </div>
+      <div class="card__foil" aria-hidden="true"></div>
+      <div class="card__glare" aria-hidden="true"></div>
+    </div>
+
+    {flip && (
+      <div class="card__face card__back">
+        <div class="back__head">
+          <span class="back__name">{p.name}</span>
+          <span class="back__code num">IM·26 {serial}</span>
+        </div>
+        <p class="back__team">{p.team} · {p.position}</p>
+        {p.stats && p.stats.length > 0 && (
+          <dl class="back__stats">
+            {p.stats.map((s) => (
+              <div class="back__stat">
+                <dt>{s.label}</dt>
+                <dd class="num"><span class="roll" style={`--to:${s.value}`}><span class="sr-only">{s.value}</span></span>{s.suffix}</dd>
+              </div>
+            ))}
+          </dl>
+        )}
+        <p class="back__blurb">{p.blurb}</p>
+        {swatches.length > 0 && (
+          <div class="back__swatches" aria-label="Palette from the work">
+            {swatches.map((c) => <span style={`--c:${c}`} title={c}><i>{c}</i></span>)}
+          </div>
+        )}
+        <a class="back__link" href={`/work/${p.slug}/`}>See all {count} pieces <svg class="arr" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" aria-hidden="true"><path d="M4 12h15M13 6l6 6-6 6"/></svg></a>
+      </div>
+    )}
+  </div>
+  {flip && <button class="card__flipbtn" type="button" aria-pressed="false"><span class="sr-only">Flip {p.name} card to see stats</span></button>}
+</Tag>
+
+<style is:global>
+  .card {
+    --mx: 50%; --my: 50%; --rx: 0deg; --ry: 0deg; --hover: 0;
+    position: relative; display: block; aspect-ratio: 5 / 7; width: 100%;
+    perspective: 1200px; color: var(--ink); text-decoration: none;
+    border-radius: var(--radius-card);
+  }
+  .card__inner {
+    position: absolute; inset: 0; transform-style: preserve-3d;
+    transform: rotateX(var(--rx)) rotateY(var(--ry));
+    transition: transform 0.6s var(--ease-out);
+    border-radius: inherit;
+  }
+  .card.is-tilting .card__inner { transition: transform 0.08s linear; }
+  .card.is-flipped .card__inner { transform: rotateX(var(--rx)) rotateY(calc(180deg + var(--ry))); transition: transform 0.9s var(--ease-out); }
+  .card__face {
+    position: absolute; inset: 0; border-radius: inherit; overflow: hidden;
+    backface-visibility: hidden; -webkit-backface-visibility: hidden;
+    box-shadow: 0 2px 4px rgb(0 0 0 / 0.35), 0 24px 48px -12px rgb(0 0 0 / 0.6);
+  }
+  .card__front { background: var(--stock); padding: 4.2%; }
+  .card--holo .card__front { background: url('/foil/chrome.webp') center / cover, #cfd3da; }
+  .card__frame { position: relative; height: 100%; border-radius: 8px; overflow: hidden; background: var(--ink); }
+  .card__art { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; }
+
+  .card__top { position: absolute; top: 0; left: 0; right: 0; display: flex; justify-content: space-between; align-items: start; gap: 8px; padding: 7% 7% 0; }
+  .card__team {
+    font-family: var(--label); font-weight: 700; text-transform: uppercase; letter-spacing: 0.06em;
+    font-size: clamp(0.5rem, 1.7cqi, 0.66rem); line-height: 1.1; color: var(--ink); background: var(--stock);
+    padding: 0.45em 0.6em 0.35em; border-radius: 3px; max-width: 70%;
+  }
+  .card__serial { font-size: clamp(0.7rem, 2.2cqi, 0.95rem); color: var(--stock); background: var(--ink); padding: 0.3em 0.5em 0.2em; border-radius: 3px; line-height: 1; }
+  .card { container-type: inline-size; }
+  .card__plate {
+    position: absolute; left: 0; right: 0; bottom: 0; padding: 7% 7% 6%;
+    background: linear-gradient(to top, rgb(12 13 18 / 0.96) 35%, rgb(12 13 18 / 0));
+    display: grid; gap: 0.2em;
+  }
+  .card__pos { font-size: clamp(0.62rem, 3.2cqi, 0.85rem); color: var(--stock-2); letter-spacing: 0.02em; }
+  .card__name {
+    font-family: var(--display); font-weight: 700; text-transform: uppercase; color: #fff;
+    font-size: clamp(1.2rem, 10.5cqi, 3rem); line-height: 0.92; letter-spacing: -0.005em;
+    overflow-wrap: anywhere; text-wrap: balance;
+  }
+  .card--holo .card__plate { background: linear-gradient(to top, var(--red) 0, var(--red) 34%, rgb(255 59 31 / 0) 100%); }
+  .card--holo .card__pos { color: var(--ink); }
+  .card--holo .card__serial { background: var(--red); color: var(--ink); }
+  .back__link .arr { width: 1em; height: 1em; }
+
+  /* Refractor foil: holo cards only. Colour travels with the pointer. */
+  .card__foil, .card__glare { position: absolute; inset: 0; pointer-events: none; border-radius: inherit; }
+  .card__foil { display: none; }
+  .card--holo .card__foil {
+    display: block; mix-blend-mode: color-dodge; opacity: calc(0.5 + var(--hover) * 0.3);
+    background: url('/foil/prizm.webp') var(--mx) var(--my) / 260% 260%;
+    filter: saturate(1.2) brightness(0.8) contrast(1.35);
+    transition: opacity 0.4s var(--ease-out);
+  }
+  .card__glare {
+    background: radial-gradient(farthest-corner circle at var(--mx) var(--my), rgb(255 255 255 / 0.55), rgb(255 255 255 / 0) 45%);
+    mix-blend-mode: overlay; opacity: calc(0.15 + var(--hover) * 0.6); transition: opacity 0.4s var(--ease-out);
+  }
+
+  /* Back: card stock, stats roll in on flip */
+  .card__back {
+    transform: rotateY(180deg); background: var(--stock); color: var(--ink);
+    padding: 8% 8% 7%; display: flex; flex-direction: column; gap: 0.8em;
+    font-size: clamp(0.78rem, 3.4cqi, 0.95rem); line-height: 1.45;
+    background-image: repeating-linear-gradient(0deg, rgb(22 22 26 / 0.035) 0 1px, transparent 1px 4px);
+  }
+  .back__head { display: flex; justify-content: space-between; align-items: baseline; gap: 8px; border-bottom: 2px solid var(--ink); padding-bottom: 0.5em; }
+  .back__name { font-family: var(--display); font-weight: 700; text-transform: uppercase; font-size: 2.1em; line-height: 0.9; }
+  .back__code { font-size: 0.85em; color: var(--red-ink); white-space: nowrap; }
+  .back__team { color: var(--ink-soft); font-size: 0.92em; }
+  .back__stats { display: grid; grid-template-columns: repeat(auto-fit, minmax(6em, 1fr)); gap: 0.6em; margin: 0.2em 0; }
+  .back__stat { background: var(--ink); color: var(--stock); border-radius: 6px; padding: 0.6em 0.7em 0.5em; }
+  .back__stat dt { font-size: 0.78em; color: var(--stock-2); }
+  .back__stat dd { margin: 0; font-size: 3em; line-height: 0.9; }
+  .back__blurb { flex: 1; }
+  .back__swatches { display: flex; gap: 4px; }
+  .back__swatches span { flex: 1; height: 1.6em; background: var(--c); border-radius: 3px; position: relative; }
+  .back__swatches i { position: absolute; top: 100%; left: 0; font-style: normal; font-size: 0.62em; color: var(--ink-soft); margin-top: 2px; letter-spacing: 0.02em; }
+  .back__link { margin-top: 1.2em; font-weight: 700; color: var(--ink); text-decoration: none; display: inline-flex; gap: 0.4em; align-self: start; border-bottom: 2px solid var(--red); padding-bottom: 1px; position: relative; z-index: 3; }
+
+  .roll { --n: var(--to); counter-reset: n var(--n); }
+  .roll::after { content: counter(n); }
+  .is-armed .roll { --n: 0; transition: --n 1.4s var(--ease-out) 0.25s; }
+  .is-armed.is-flipped .roll, .is-armed.is-counted .roll { --n: var(--to); }
+
+  .card__flipbtn { position: absolute; inset: 0; z-index: 2; background: none; border: 0; cursor: pointer; border-radius: inherit; }
+  .card.is-flipped .card__flipbtn { inset: 0 0 18% 0; }
+  .card--link { cursor: pointer; }
+  .card--link:focus-visible { outline-offset: 6px; }
+</style>
