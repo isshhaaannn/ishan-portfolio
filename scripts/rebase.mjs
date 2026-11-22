@@ -13,6 +13,8 @@ const DIST = path.resolve('dist');
 const esc = base.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
 const re = new RegExp(`(["'(,\\s])\\/(?!\\/)(?!${esc.slice(1)}\\/)(?=[A-Za-z0-9_#?.-])`, 'g');
 
+const lead = new RegExp(`^\\/(?!\\/)(?!${esc.slice(1)}\\/)`);
+const cssUrl = new RegExp(`url\\((['"]?)\\/(?!\\/)(?!${esc.slice(1)}\\/)`, 'g');
 let files = 0;
 const walk = (d) => fs.readdirSync(d, { withFileTypes: true }).forEach((e) => {
   const p = path.join(d, e.name);
@@ -20,8 +22,8 @@ const walk = (d) => fs.readdirSync(d, { withFileTypes: true }).forEach((e) => {
   if (!/\.(html|css)$/.test(e.name)) return;
   const t = fs.readFileSync(p, 'utf8');
   // Only rewrite inside attribute values and url(); leave visible text alone.
-  const n = t.replace(/(\b(?:href|src|srcset|poster|content|action)=")([^"]*)"/g, (m, a, v) => a + v.replace(re, `$1${base}/`).replace(/^\/(?!\/)(?!${esc.slice(1)}\/)/, `${base}/`) + '"')
-             .replace(/url\((['"]?)\/(?!\/)(?!${esc.slice(1)}\/)/g, `url($1${base}/`);
+  const n = t.replace(/(\b(?:href|src|srcset|poster|content|action)=")([^"]*)"/g, (m, a, v) => a + v.replace(re, `$1${base}/`).replace(lead, `${base}/`) + '"')
+             .replace(cssUrl, `url($1${base}/`);
   if (n !== t) { fs.writeFileSync(p, n); files++; }
 });
 walk(DIST);
