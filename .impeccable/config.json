@@ -1,0 +1,14 @@
+{
+  "detector": {
+    "ignoreRules": [],
+    "ignoreFiles": [],
+    "ignoreValues": [
+      {
+        "rule": "design-system-font",
+        "value": "hn",
+        "createdAt": "2026-11-21T23:23:29.014Z",
+        "reason": "HN is the local() @font-face alias for Helvetica Neue, which the user pinned in chat and DESIGN.md documents"
+      }
+    ]
+  }
+}

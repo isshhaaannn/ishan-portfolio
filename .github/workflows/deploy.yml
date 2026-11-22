@@ -25,6 +25,10 @@ jobs:
           cache: npm
       - run: npm ci
       - run: npm run build
+        env:
+          # Temporary github.io address. Delete these two lines once ishan.vryks.com DNS is set up.
+          SITE_URL: https://isshhaaannn.github.io
+          SITE_BASE: /ishan-portfolio
       - uses: actions/upload-pages-artifact@v3
         with:
           path: dist
