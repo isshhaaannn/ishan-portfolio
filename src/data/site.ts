@@ -4,7 +4,7 @@ export const SITE = {
   title: 'Brand & Content Director',
   bio: 'The designer behind 40M+ views for Steven Bartlett, Daily Mail and the founders you follow. Now building brands for a few more.',
   url: 'https://ishan.vryks.com',
-  CAL_LINK: '',
+  CAL_LINK: 'ishan-mitra-ztuhui/30min',
   email: 'contact@vryks.com',
   emailPersonal: 'isshhaaannn@gmail.com',
   linkedin: 'https://www.linkedin.com/in/ishan-mitra-279385272/',
